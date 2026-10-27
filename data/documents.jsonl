@@ -1,0 +1,4 @@
+{"doc_id":"es-001","title":"Elasticsearch 中的 BM25","content":"BM25 是 Elasticsearch 默认使用的相关性算法。它根据查询词频、文档频率和文档长度计算分数。title 字段可以设置更高权重，使标题命中的文档优先返回。","source":"local-guide","category":"search","tags":["elasticsearch","bm25"],"created_at":"2026-01-10"}
+{"doc_id":"es-002","title":"向量检索基础","content":"向量检索先使用 Embedding 模型将文本转换成稠密向量，再查找相似向量。Elasticsearch 的 dense_vector 字段可以建立 HNSW 索引，并通过 knn 查询获得近似最近邻结果。","source":"local-guide","category":"vector","tags":["elasticsearch","embedding","knn"],"created_at":"2026-01-12"}
+{"doc_id":"rag-001","title":"RAG 检索流程","content":"检索增强生成通常包含文档加载、文本切分、向量化、索引、召回和答案生成。混合检索同时利用语义向量与关键词匹配，常用 RRF 融合两路排名。","source":"rag-notes","category":"rag","tags":["rag","hybrid"],"created_at":"2026-02-03"}
+{"doc_id":"meta-001","title":"元数据过滤","content":"元数据过滤不会参与相关性评分，适合按分类、标签、租户和时间范围缩小候选集。在 Elasticsearch 中通常将过滤条件放入 bool.filter。","source":"local-guide","category":"search","tags":["elasticsearch","metadata"],"created_at":"2026-02-18"}
