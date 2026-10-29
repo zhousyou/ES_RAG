@@ -6,7 +6,8 @@ services:
       - discovery.type=single-node
       - xpack.security.enabled=false
       - xpack.security.enrollment.enabled=false
-      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - CLI_JAVA_OPTS=-XX:UseSVE=0
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g -XX:UseSVE=0
       - bootstrap.memory_lock=true
     ulimits:
       memlock:

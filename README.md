@@ -34,6 +34,8 @@ curl http://localhost:9200
 
 本项目固定使用 Elasticsearch `8.17.4`，关闭了认证，只监听宿主机回环地址 `127.0.0.1`。该配置适合本机教学，不能直接用于公网或生产环境。
 
+Apple Silicon 上的 Docker 会声明支持 SVE2，但实际执行相关指令会触发 `SIGILL`。因此 Compose 同时设置了 `CLI_JAVA_OPTS` 和 `ES_JAVA_OPTS` 中的 `-XX:UseSVE=0`：前者作用于启动前的 CLI 进程，后者作用于 Elasticsearch 主进程。
+
 数据保存在 Docker volume `es_data`。停止服务不会删除数据：
 
 ```bash
