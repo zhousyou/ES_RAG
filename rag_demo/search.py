@@ -63,7 +63,17 @@ def build_knn_query(
     # 关键字段：field、query_vector、k、num_candidates、filter。
     # k 通常等于 size；num_candidates 应不小于 k。
     # TODO(student): 按 README 第 8 章补全。
-    raise NotImplementedError("请实现 build_knn_query")
+    # raise NotImplementedError("请实现 build_knn_query")
+    return {
+        "size": size,
+        "knn": {
+            "field": "content_vector",
+            "query_vector": list(query_vector),
+            "k": size,
+            "num_candidates": num_candidates,
+            "filter": list(filters)
+        }
+    }
 
 
 def reciprocal_rank_fusion(
