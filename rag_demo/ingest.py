@@ -26,7 +26,18 @@ def prepare_chunks(
     # 4. 用 doc_id + chunk 序号生成稳定 chunk_id。
     # 可使用下方 stable_chunk_id。
     # TODO(student): 按 README 第 5 章补全。
-    raise NotImplementedError("请实现 prepare_chunks")
+    # raise NotImplementedError("请实现 prepare_chunks")
+    for document in documents:
+        content = document["content"]
+        chunks = chunk_text(content, chunk_size, overlap)
+        vectors = embedder.embed(chunks)
+        for position, (chunk, vector) in enumerate(zip(chunks, vectors)):
+            new_chunk = document.copy()
+            new_chunk["chunk_id"] = stable_chunk_id(document["doc_id"], position)
+            new_chunk["content"] = chunk
+            new_chunk["content_vector"] = vector
+
+            yield new_chunk
 
 
 def stable_chunk_id(doc_id: str, position: int) -> str:
