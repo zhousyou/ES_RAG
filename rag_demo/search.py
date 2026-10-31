@@ -87,4 +87,18 @@ def reciprocal_rank_fusion(
     1 / (rank_constant + rank)
     """
     # TODO(student): 按 README 第 9 章补全。
-    raise NotImplementedError("请实现 reciprocal_rank_fusion")
+    # raise NotImplementedError("请实现 reciprocal_rank_fusion")
+    scores = {}
+    documents = {}
+    for ranking in rankings:
+        for rank, hit in enumerate(ranking, start=1):
+            doc_id = str(hit["_id"])
+            scores[doc_id] = scores.get(doc_id, 0.0) + 1 / (rank_constant + rank)
+            documents.setdefault(doc_id, dict(hit))
+    ordered_ids = sorted(scores, key=lambda doc_id: scores[doc_id], reverse=True)
+    res = []
+    for doc_id in ordered_ids[:limit]:
+        hit = documents[doc_id]
+        hit["_rrf_score"] = scores[doc_id]
+        res.append(hit)
+    return res
