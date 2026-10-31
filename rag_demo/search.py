@@ -11,7 +11,20 @@ def build_filters(metadata: Mapping[str, Any] | None) -> list[dict[str, Any]]:
     # created_after -> {"range": {"created_at": {"gte": value}}}
     # 忽略值为 None 或空列表的字段；未知字段应抛出 ValueError。
     # TODO(student): 按 README 第 6 章补全。
-    raise NotImplementedError("请实现 build_filters")
+    # raise NotImplementedError("请实现 build_filters")
+    filters = []
+    for k, v in metadata.items():
+        if v is None or v == []:
+            continue
+        elif k == "category":
+            filters.append({"term": {"category": v}})
+        elif k == "tags":
+            filters.append({"terms": {"tags": v}})
+        elif k == "created_after":
+            filters.append({"range": {"created_at": {"gte": v}}})
+        else:
+            raise ValueError(f"未知字段{k}")
+    return filters
 
 
 def build_bm25_query(
@@ -21,7 +34,23 @@ def build_bm25_query(
     # 将 multi_match 放到 bool.must，将 filters 放到 bool.filter。
     # title 权重应高于 content，例如字段写成 "title^2"。
     # TODO(student): 按 README 第 7 章补全。
-    raise NotImplementedError("请实现 build_bm25_query")
+    # raise NotImplementedError("请实现 build_bm25_query")
+    dsl = {
+        "size": size,
+        "query":{
+            "bool":{
+                "must":[{
+                    "multi_match":{
+                        "query": query,
+                        "fields": ["title^2", "content"]
+                    }
+                }],
+                "filter":filters
+            }
+        }
+    }
+    
+    return dsl
 
 
 def build_knn_query(
